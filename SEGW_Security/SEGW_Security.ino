@@ -40,36 +40,42 @@ void loop() {
   // read the pushbutton input pin:
   estadoInSonido = digitalRead(inSensorSonido);
   estadoInInfrarojo = analogRead(inSensorInfrarojo);
-  //Serial.println(estadoInInfrarojo);
-    
+  int pos = 0;
+  
   if(estadoInSonido){
-     for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
+    startMovement();
+  }
+  
+  /*int pos = 0;
+  if(estadoInSonido){
+     while(pos < 180)  // goes from 0 degrees to 180 degrees 
     {                                  // in steps of 1 degree 
       estadoInInfrarojo = analogRead(inSensorInfrarojo);
       if(estadoInInfrarojo > 200){
         digitalWrite(outLaser,HIGH);
-        pos -= 1;
       }
       else{
         digitalWrite(outLaser,LOW);
         myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+        pos += 1;
       }
      delay(15);  // waits 15ms for the servo to reach the position 
     } 
-    for(pos = 180; pos>=1; pos-=1)     // goes from 180 degrees to 0 degrees 
+    pos = 180;
+    while(pos>=1)     // goes from 180 degrees to 0 degrees 
     {                                
       estadoInInfrarojo = analogRead(inSensorInfrarojo);
       if(estadoInInfrarojo > 200){
         digitalWrite(outLaser,HIGH);
-        pos += 1;
       }
       else{
         digitalWrite(outLaser,LOW);
         myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+        pos -= 1;
       }
      delay(15);  // waits 15ms for the servo to reach the position 
-    } 
-  }
+    }
+  }*/
  
   //delay(50);
   
@@ -79,18 +85,58 @@ void loop() {
 // Sweep
 // by BARRAGAN <http://barraganstudio.com> 
 // This example code is in the public domain.
-void startMovement(int init) 
+void startMovement() 
 { 
-  while(init){
-    for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
-    {                                  // in steps of 1 degree 
-      myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-      delay(15);                       // waits 15ms for the servo to reach the position 
-    } 
-    for(pos = 180; pos>=1; pos-=1)     // goes from 180 degrees to 0 degrees 
-    {                                
-      myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-      delay(15);                       // waits 15ms for the servo to reach the position 
-    } 
-  }
-} 
+     while(pos < 180)  // goes from 0 degrees to 180 degrees 
+    {                          // in steps of 1 degree 
+      estadoInInfrarojo = analogRead(inSensorInfrarojo);
+      if(estadoInInfrarojo > 250){
+        digitalWrite(outLaser,HIGH);
+      }
+      else{
+        digitalWrite(outLaser,LOW);
+        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+        pos += 1;
+      }
+     delay(15);  // waits 15ms for the servo to reach the position 
+    }
+    pos = 180;
+    while(pos>=1)     // goes from 180 degrees to 0 degrees 
+    {             
+      estadoInInfrarojo = analogRead(inSensorInfrarojo);
+      if(estadoInInfrarojo > 250){
+        digitalWrite(outLaser,HIGH);
+      }
+      else{
+        digitalWrite(outLaser,LOW);
+        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+        pos -= 1;
+      }
+     delay(15);  // waits 15ms for the servo to reach the position 
+    }
+}
+
+
+void turn(boolean condLoop, int condOp){
+       while(condLoop)  // goes from 0 degrees to 180 degrees 
+    {                          // in steps of 1 degree 
+      estadoInInfrarojo = analogRead(inSensorInfrarojo);
+      if(estadoInInfrarojo > 250){
+        digitalWrite(outLaser,HIGH);
+      }
+      else{
+        digitalWrite(outLaser,LOW);
+        myservo.write(pos);        // tell servo to go to position in variable 'pos' 
+        if (condOp == 0){
+          pos += 1;
+        }
+        else{
+          pos -= 1;
+        }
+      }
+     delay(15);  // waits 15ms for the servo to reach the position 
+    }
+}
+
+
+
