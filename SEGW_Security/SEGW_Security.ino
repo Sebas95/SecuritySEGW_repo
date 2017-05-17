@@ -1,6 +1,11 @@
 
-
+#include <Servo.h> 
 // This constant won't change:
+
+
+Servo myservo;  // create servo object to control a servo 
+                // a maximum of eight servo objects can be created 
+int pos = 0;    // variable to store the servo position 
 
 const int  inSensorSonido = 3;    // the pin that the sound sensor is attached to
 const int  inSensorPersonas = 5;  // the pin that the PIR sensor is attached to
@@ -26,6 +31,7 @@ void setup() {
   // initialize the button pin as a input:
   pinMode(outLaser, OUTPUT);  
   // initialize serial communication:
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object 
   Serial.begin(9600);
 }
 
@@ -35,15 +41,56 @@ void loop() {
   estadoInSonido = digitalRead(inSensorSonido);
   estadoInInfrarojo = analogRead(inSensorInfrarojo);
   //Serial.println(estadoInInfrarojo);
-  
-  Serial.println(estadoInSonido);
-  
-  if(estadoInInfrarojo > 130){
-    digitalWrite(outLaser,HIGH);
+    
+  if(estadoInSonido){
+     for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
+    {                                  // in steps of 1 degree 
+      estadoInInfrarojo = analogRead(inSensorInfrarojo);
+      if(estadoInInfrarojo > 200){
+        digitalWrite(outLaser,HIGH);
+        pos -= 1;
+      }
+      else{
+        digitalWrite(outLaser,LOW);
+        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+      }
+     delay(15);  // waits 15ms for the servo to reach the position 
+    } 
+    for(pos = 180; pos>=1; pos-=1)     // goes from 180 degrees to 0 degrees 
+    {                                
+      estadoInInfrarojo = analogRead(inSensorInfrarojo);
+      if(estadoInInfrarojo > 200){
+        digitalWrite(outLaser,HIGH);
+        pos += 1;
+      }
+      else{
+        digitalWrite(outLaser,LOW);
+        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+      }
+     delay(15);  // waits 15ms for the servo to reach the position 
+    } 
   }
-  else{
-    digitalWrite(outLaser,LOW);
-  }
-  delay(50);
+ 
+  //delay(50);
   
 }
+
+
+// Sweep
+// by BARRAGAN <http://barraganstudio.com> 
+// This example code is in the public domain.
+void startMovement(int init) 
+{ 
+  while(init){
+    for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
+    {                                  // in steps of 1 degree 
+      myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+      delay(15);                       // waits 15ms for the servo to reach the position 
+    } 
+    for(pos = 180; pos>=1; pos-=1)     // goes from 180 degrees to 0 degrees 
+    {                                
+      myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+      delay(15);                       // waits 15ms for the servo to reach the position 
+    } 
+  }
+} 
