@@ -4,7 +4,7 @@
 
 
 Servo myservo;  // create servo object to control a servo 
-                // a maximum of eight servo objects can be created 
+boolean soundDetectionEnable = true;  //flag that indicates if sound detection is enabled
 int pos = 0;    // variable to store the servo position 
 
 const int  inSensorSonido = 3;    // the pin that the sound sensor is attached to
@@ -46,22 +46,70 @@ void loop() {
   
   Serial.println(estadoInPersonas); 
   
-  if(estadoInSonido || estadoInPersonas ){
-    startMovement();
+  
+  if(alertDetected()){
+    ProcessAutaticMovement() 
   }
-  
-
-  
+   
 }
 
 
 
-void startMovement() 
+
+
+//start checking around for intruders, moving servo 3 times 180 degrees
+void ProcessAutaticMovement() 
 { 
-     while(pos < 180)  // goes from 0 degrees to 180 degrees 
+    giroIzquierdo();
+    giroDerecho();
+    
+     giroIzquierdo();
+    giroDerecho();
+    
+     giroIzquierdo();
+    giroDerecho();
+}
+
+//returns true if motion is detected
+boolean motionDetected()
+{
+  return estadoInPersonas == 1;
+}
+
+//returns true if sound is detected
+boolean soundDetected()
+{
+  return estadoInSonido == 1;
+}
+
+//returns if an alert is happening
+boolean alertDetected()
+{
+  if(soundDetectionEnable) //if sound detection is enabled
+  {
+    return  motionDetected() || soundDetected()  ; //checks both sound and motion sensor states
+  }
+  else
+  { 
+    return motionDetected(); //checks only motion sensor state
+  }
+}
+
+
+
+//returns if the tarjet is localized
+boolean tarjetDetected()
+{
+  estadoInInfrarojo = analogRead(inSensorInfrarojo);
+  return estadoInInfrarojo > 250 ;
+}
+
+void giroIzquierdo()
+{
+    while(pos < 180)  // goes from 0 degrees to 180 degrees 
     {                          // in steps of 1 degree 
-      estadoInInfrarojo = analogRead(inSensorInfrarojo);
-      if(estadoInInfrarojo > 250){
+      
+      if(tarjetDetected()){
         digitalWrite(outLaser,HIGH);
       }
       else{
@@ -71,11 +119,15 @@ void startMovement()
       }
      delay(15);  // waits 15ms for the servo to reach the position 
     }
-    pos = 180;
+}
+
+void giroDerecho()
+{
+   pos = 180;
     while(pos>=1)     // goes from 180 degrees to 0 degrees 
     {             
-      estadoInInfrarojo = analogRead(inSensorInfrarojo);
-      if(estadoInInfrarojo > 250){
+      
+      if(tarjetDetected()){
         digitalWrite(outLaser,HIGH);
       }
       else{
@@ -86,28 +138,4 @@ void startMovement()
      delay(15);  // waits 15ms for the servo to reach the position 
     }
 }
-
-
-void turn(boolean condLoop, int condOp){
-       while(condLoop)  // goes from 0 degrees to 180 degrees 
-    {                          // in steps of 1 degree 
-      estadoInInfrarojo = analogRead(inSensorInfrarojo);
-      if(estadoInInfrarojo > 250){
-        digitalWrite(outLaser,HIGH);
-      }
-      else{
-        digitalWrite(outLaser,LOW);
-        myservo.write(pos);        // tell servo to go to position in variable 'pos' 
-        if (condOp == 0){
-          pos += 1;
-        }
-        else{
-          pos -= 1;
-        }
-      }
-     delay(15);  // waits 15ms for the servo to reach the position 
-    }
-}
-
-
 
