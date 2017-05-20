@@ -16,6 +16,7 @@ const int  outLaser = 2;       // the pin that the bluetooth is attached to
 int estadoInSonido = 0;
 int estadoInInfrarojo = 0;
 int estadoOutLaser = 0;
+int estadoInPersonas = 0;
 
 
 
@@ -40,51 +41,21 @@ void loop() {
   // read the pushbutton input pin:
   estadoInSonido = digitalRead(inSensorSonido);
   estadoInInfrarojo = analogRead(inSensorInfrarojo);
+  estadoInPersonas = digitalRead(inSensorPersonas);
   int pos = 0;
   
-  if(estadoInSonido){
+  Serial.println(estadoInPersonas); 
+  
+  if(estadoInSonido || estadoInPersonas ){
     startMovement();
   }
   
-  /*int pos = 0;
-  if(estadoInSonido){
-     while(pos < 180)  // goes from 0 degrees to 180 degrees 
-    {                                  // in steps of 1 degree 
-      estadoInInfrarojo = analogRead(inSensorInfrarojo);
-      if(estadoInInfrarojo > 200){
-        digitalWrite(outLaser,HIGH);
-      }
-      else{
-        digitalWrite(outLaser,LOW);
-        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-        pos += 1;
-      }
-     delay(15);  // waits 15ms for the servo to reach the position 
-    } 
-    pos = 180;
-    while(pos>=1)     // goes from 180 degrees to 0 degrees 
-    {                                
-      estadoInInfrarojo = analogRead(inSensorInfrarojo);
-      if(estadoInInfrarojo > 200){
-        digitalWrite(outLaser,HIGH);
-      }
-      else{
-        digitalWrite(outLaser,LOW);
-        myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-        pos -= 1;
-      }
-     delay(15);  // waits 15ms for the servo to reach the position 
-    }
-  }*/
- 
-  //delay(50);
+
   
 }
 
 
-// Sweep
-// by BARRAGAN <http://barraganstudio.com> 
-// This example code is in the public domain.
+
 void startMovement() 
 { 
      while(pos < 180)  // goes from 0 degrees to 180 degrees 
