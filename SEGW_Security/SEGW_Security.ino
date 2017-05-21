@@ -46,9 +46,13 @@ void setup() {
 
 
 void loop() {
+  //Serial.flush(); //send data to android
   receiveInstructionsFromAndroid();
   //refresh servo initial position
   //int servo_position = 0;
+  
+  //send data to android ##################################### falta de probar
+  //send_notification();
   
   //if bluetooth pairing solicitude is detected (interruption)
   if(manualMode)
@@ -112,7 +116,12 @@ void receiveInstructionsFromAndroid()
          manualMode = false;
          myservo.write(0);
          Serial.println(message);}
-      
+      if( message == "T")    {
+         digitalWrite(outLaser,HIGH);
+         Serial.println(message);
+         delay(1000);
+         digitalWrite(outLaser,LOW);
+       }
     message="";
 }
 
@@ -153,7 +162,28 @@ boolean alertDetected()
   }
 }
 
-
+//method for send to android
+void send_notification(){
+  if(alertDetected){
+    Serial.println("A");
+  }
+  else{
+    Serial.println("a");
+  }
+  if(soundDetected()){
+    Serial.println("S");
+  }
+  else{
+    Serial.println("s");
+  }
+  if(motionDetected()){
+    Serial.println("M");
+  }
+  else{
+    Serial.println("m");
+  }
+  
+}
 
 //returns if the tarjet is localized
 boolean tarjetDetected()
