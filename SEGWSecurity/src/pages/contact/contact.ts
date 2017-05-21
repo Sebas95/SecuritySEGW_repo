@@ -22,11 +22,21 @@ export class ContactPage{
     );
    }*/
 
+  private man = false;
   private mov = 0;
   private test = 0;
 
   constructor(public navCtrl: NavController, public bluetoothSerial: BluetoothSerial) {
 
+  }
+
+  private turnOnManual(){
+    if(this.man){
+        this.bluetoothSerial.write('MM');
+    }
+    else{
+        this.bluetoothSerial.write('mm');
+    }
   }
 
   private sendMM(){

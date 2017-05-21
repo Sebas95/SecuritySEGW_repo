@@ -17,11 +17,11 @@
 
 <ion-item>
   <ion-label> Device ONeee</ion-label>
-  <ion-radio [(ngModel)]="onhh" (click)="onLed2()" name="onhh" ngDefaultControl></ion-radio>
+  <ion-checkbox [(ngModel)]="onhh" (click)="turnOnDevice()" name="onhh" ngDefaultControl></ion-checkbox>
 </ion-item>
 <ion-item>
   <ion-label> Sound Detection</ion-label>
-  <ion-toggle toggle-class="toggle-positive"></ion-toggle>
+  <ion-checkbox [(ngModel)]="son" (click)="turnOnSound()" name="son" ngDefaultControl></ion-checkbox>
 </ion-item>
     <ion-list id="menu-list3">
       <ion-item id="menu-list-item7" style="">Alert</ion-item>

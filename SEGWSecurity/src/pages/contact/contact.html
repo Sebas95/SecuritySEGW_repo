@@ -16,7 +16,11 @@
         <a>Test: {{test}}</a>
       </ion-item>
   </ion-list>
-  <button (click)="sendMM()" class="button-dangerr">Activar modo manual</button>
+    <ion-item>
+      <ion-label> Modo manual</ion-label>
+      <ion-checkbox [(ngModel)]="man" (click)="turnOnManual()" name="man" ngDefaultControl></ion-checkbox>
+    </ion-item>
+  <button (click)="sendMM()" class="button-dangerr">Activar</button>
   <button (click)="sendmm()" class="button-dangerr">Desactivar modo manual</button>
   <button (click)="shoot()" class="button-dangerr">Shoot now!</button>
 </ion-content> 

@@ -9,23 +9,31 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 export class AboutPage {
    
   private status = false; 
-  onhh = true;
+  onhh = false;
+  private son = true;
 
   constructor(private bluetoothSerial: BluetoothSerial) {
         
   }
 
-   turnOnDevice(){
-    this.bluetoothSerial.write("D"); 
+   turnOnDevice(){ 
     if(!this.status){
-        alert("tes");
        this.bluetoothSerial.write("D");        
     }
     else{
-        alert("nop");
         this.bluetoothSerial.write("d");
     }
     this.status = !this.status;
+  };
+
+
+  turnOnSound(){
+    if(this.son){
+        this.bluetoothSerial.write('S');
+    }
+    else{
+        this.bluetoothSerial.write('s');
+    }
   };
 
   listBluetooth(){
