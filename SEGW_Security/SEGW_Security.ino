@@ -47,21 +47,23 @@ void setup() {
 
 void loop() {
   //Serial.flush(); //send data to android
+  send_notification();
   receiveInstructionsFromAndroid();
   //refresh servo initial position
   //int servo_position = 0;
   
   //send data to android ##################################### falta de probar
-  //send_notification();
   
   //if bluetooth pairing solicitude is detected (interruption)
   if(manualMode)
   {
+    Serial.println("hola3");
     ProcessManualMovement();
   }
   //if device is on and alert detected(interruption) 
   if(alertDetected() && DeviceOn && !manualMode){ 
     //start automatic mode
+    Serial.println("hola4");
     ProcessAutaticMovement(); 
   }
    
@@ -115,7 +117,9 @@ void receiveInstructionsFromAndroid()
       if( message == "mm")    {
          manualMode = false;
          myservo.write(0);
-         Serial.println(message);}
+         Serial.println(message);
+         
+         }
       if( message == "T")    {
          digitalWrite(outLaser,HIGH);
          Serial.println(message);
@@ -164,23 +168,26 @@ boolean alertDetected()
 
 //method for send to android
 void send_notification(){
-  if(alertDetected){
+  Serial.flush();
+  if(alertDetected()){
     Serial.println("A");
   }
   else{
-    Serial.println("a");
+    Serial.print("a.");
+    Serial.println(".");
   }
   if(soundDetected()){
     Serial.println("S");
   }
   else{
-    Serial.println("s");
+    Serial.println("s .");
+    Serial.println(".");
   }
   if(motionDetected()){
     Serial.println("M");
   }
   else{
-    Serial.println("m");
+    Serial.println("m .");
   }
   
 }
