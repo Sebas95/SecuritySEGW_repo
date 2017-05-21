@@ -8,19 +8,19 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial'
 })
 
 
-export class ContactPage implements OnInit{
+export class ContactPage{
 
-   ngOnInit(){
+   /*ngOnInit(){
     alert("yeah perro");
     this.bluetoothSerial.isConnected().then(
         function(){
-            this.bluetoothSerial.write("Mm");
+            this.bluetoothSerial.write('MM');
         },
         function(){
             alert("No esta conectado");
         }
     );
-   }
+   }*/
 
   private mov = 0;
   private test = 0;
@@ -29,20 +29,23 @@ export class ContactPage implements OnInit{
 
   }
 
-  private sendMovement(){
-    //this.test = this.test + 1;
-    //this.bluetoothSerial.write(this.mov);
-
-    this.bluetoothSerial.isConnected().then(
-        function(){
-            this.bluetoothSerial.write(this.mov);
-        },
-        function(){
-            alert("No esta conectado");
-        }
-    );
+  private sendMM(){
+    alert("jiji");
+    this.bluetoothSerial.write('MM');
   }
 
+  private sendmm(){
+    alert("jiji");
+    this.bluetoothSerial.write('mm');
+  }
+
+  private sendMovement(){
+    this.bluetoothSerial.write(String(this.mov));
+  }
+
+  private shoot(){
+    this.bluetoothSerial.write('T');
+  }
   
 
 }

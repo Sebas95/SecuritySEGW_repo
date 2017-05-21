@@ -7,11 +7,26 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
   templateUrl: 'about.html'
 })
 export class AboutPage {
-
+   
+  private status = false; 
+  onhh = true;
 
   constructor(private bluetoothSerial: BluetoothSerial) {
         
   }
+
+   turnOnDevice(){
+    this.bluetoothSerial.write("D"); 
+    if(!this.status){
+        alert("tes");
+       this.bluetoothSerial.write("D");        
+    }
+    else{
+        alert("nop");
+        this.bluetoothSerial.write("d");
+    }
+    this.status = !this.status;
+  };
 
   listBluetooth(){
     this.bluetoothSerial.list().then(function(data){
@@ -42,7 +57,14 @@ export class AboutPage {
   
   onLed(){
     alert('Si se envia');
-    this.bluetoothSerial.write('hello world');
+    this.bluetoothSerial.write('D');
+
+  }
+
+  onLed2(){
+    this.onhh = false;
+    alert('Si se envia');
+    this.bluetoothSerial.write('D');
 
   }
 

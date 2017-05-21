@@ -8,7 +8,7 @@
 
 <ion-content padding="true" class="has-header">
   <ion-list>
-      <ion-item id="controller-range3">Move        
+      <ion-item id="controller-range3">Movenuevo1      
         <input  [(ngModel)]="mov" (input) ="sendMovement()" class="newtheme" value="90" min="0" max="180" step="1"     type="range" name="something">
       </ion-item>
       <ion-item>
@@ -16,5 +16,7 @@
         <a>Test: {{test}}</a>
       </ion-item>
   </ion-list>
-  <button class="button-dangerr">Shoot now!</button>
+  <button (click)="sendMM()" class="button-dangerr">Activar modo manual</button>
+  <button (click)="sendmm()" class="button-dangerr">Desactivar modo manual</button>
+  <button (click)="shoot()" class="button-dangerr">Shoot now!</button>
 </ion-content> 
