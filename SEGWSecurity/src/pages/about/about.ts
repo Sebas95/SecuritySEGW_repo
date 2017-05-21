@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
@@ -6,15 +6,38 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
   selector: 'page-about',
   templateUrl: 'about.html'
 })
-export class AboutPage {
+export class AboutPage implements OnInit{
+
+
+  ngOnInit(){
+    this.bluetoothSerial.subscribe('M').subscribe(data => this.alertew(data));
+   }
    
   private status = false; 
   onhh = false;
   private son = true;
+  private alertSound = false;
+  private alertMovement = false
+  private alerta = false;
 
-  constructor(private bluetoothSerial: BluetoothSerial) {
+  constructor(private cdRef:ChangeDetectorRef, public navCtrl: NavController, private zone: NgZone, private bluetoothSerial: BluetoothSerial) {
         
   }
+
+  public alertew(carac){
+    alert(carac);
+      this.alerta = true;
+      this.cdRef.detectChanges();
+      //this.navCtrl.setRoot(this.navCtrl.getActive().component);
+
+    alert("estoy en 4");
+  };
+
+  changeNotification(data){
+    if(data=='M -'){
+      alert("alerta2");
+    }
+  };
 
    turnOnDevice(){ 
     if(!this.status){
