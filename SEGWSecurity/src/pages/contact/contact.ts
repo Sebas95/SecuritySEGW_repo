@@ -1,4 +1,4 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial'
 
@@ -26,7 +26,7 @@ export class ContactPage{
   private mov = 0;
   private test = 0;
 
-  constructor(public navCtrl: NavController, public bluetoothSerial: BluetoothSerial) {
+  constructor(private cdRef:ChangeDetectorRef, public navCtrl: NavController, public bluetoothSerial: BluetoothSerial) {
 
   }
 
@@ -37,6 +37,8 @@ export class ContactPage{
     else{
         this.bluetoothSerial.write('mm');
     }
+    this.cdRef.detectChanges();
+    this.bluetoothSerial.clear();
   }
 
   private sendMM(){
@@ -51,10 +53,12 @@ export class ContactPage{
 
   private sendMovement(){
     this.bluetoothSerial.write(String(this.mov));
+    this.bluetoothSerial.clear();
   }
 
   private shoot(){
     this.bluetoothSerial.write('T');
+    this.bluetoothSerial.clear();
   }
   
 

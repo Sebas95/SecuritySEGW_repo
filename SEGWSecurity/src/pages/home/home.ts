@@ -19,7 +19,7 @@ export class HomePage {
 
   connect2(){
     var variable = this.bluetoothSerial.connect('20:17:02:23:24:85');
-    variable.subscribe(data => alert(data));
+    variable.subscribe(data => alert("Conection succeeded"));
     //this.bluetoothSerial.subscribe('-').subscribe(data => {this.changeNotification(data)});
     //this.bluetoothSerial.subscribe('-').subscribe(data => {this.about.alertew()});
   }

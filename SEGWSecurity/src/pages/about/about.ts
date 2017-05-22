@@ -10,7 +10,7 @@ export class AboutPage implements OnInit{
 
 
   ngOnInit(){
-    this.bluetoothSerial.subscribe('M').subscribe(data => this.alertew(data));
+    this.bluetoothSerial.subscribe('.').subscribe(data => this.alertem(data));
    }
    
   private status = false; 
@@ -24,13 +24,27 @@ export class AboutPage implements OnInit{
         
   }
 
-  public alertew(carac){
-    alert(carac);
-      this.alerta = true;
+  public alertem(carac){
+    if(carac.includes("M")){
+      alert("Movement Alert");
+      this.alertMovement = true;
+      setTimeout(() => {this.alertMovement = false;this.cdRef.detectChanges();}, 10000);
       this.cdRef.detectChanges();
-      //this.navCtrl.setRoot(this.navCtrl.getActive().component);
-
-    alert("estoy en 4");
+      this.bluetoothSerial.clear();
+    }
+    else{
+      if(carac.includes("S")){
+        alert("Sound Alert");
+        this.alertSound = true;
+        setTimeout(() => {this.alertSound = false;this.cdRef.detectChanges();}, 10000);
+        this.cdRef.detectChanges();
+        this.bluetoothSerial.clear();
+      }
+      else{
+        this.bluetoothSerial.clear();  
+      }
+      
+    }
   };
 
   changeNotification(data){
@@ -41,10 +55,12 @@ export class AboutPage implements OnInit{
 
    turnOnDevice(){ 
     if(!this.status){
-       this.bluetoothSerial.write("D");        
+       this.bluetoothSerial.write("D");
+       this.bluetoothSerial.clear();      
     }
     else{
         this.bluetoothSerial.write("d");
+        this.bluetoothSerial.clear();
     }
     this.status = !this.status;
   };
@@ -53,9 +69,12 @@ export class AboutPage implements OnInit{
   turnOnSound(){
     if(this.son){
         this.bluetoothSerial.write('S');
+        this.cdRef.detectChanges();
+        this.bluetoothSerial.clear();
     }
     else{
         this.bluetoothSerial.write('s');
+        this.bluetoothSerial.clear();
     }
   };
 

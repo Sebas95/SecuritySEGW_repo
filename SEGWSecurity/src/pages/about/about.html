@@ -8,15 +8,16 @@
  
 <ion-content padding="true" class="has-header">
 
-       <button [disabled]="!alerta" (click)="onLed()">Bluetooth</button>
+       <!--<button [disabled]="!alerta" (click)="onLed()">Bluetooth</button>
         <button (click)="connectHc()">Connect2</button>
         <button (click)="listBluetooth()">List</button>
         <button (click)="bluetoothEnabled()">Enabled</button>
         <button (click)="bluetoothConected()">Conected</button>
 
-<a [hidden]="!alerta"> lll</a>
+<a [hidden]="!alertSound">Sonido</a>
+<a [hidden]="!alertMovement">Movimiento</a>-->
 <ion-item>
-  <ion-label> Device ONeee</ion-label>
+  <ion-label> Device On</ion-label>
   <ion-checkbox [(ngModel)]="onhh" (click)="turnOnDevice()" name="onhh" ngDefaultControl></ion-checkbox>
 </ion-item>
 <ion-item>
@@ -24,9 +25,10 @@
   <ion-checkbox [(ngModel)]="son" (click)="turnOnSound()" name="son" ngDefaultControl></ion-checkbox>
 </ion-item>
     <ion-list id="menu-list3">
-      <ion-item id="menu-list-item7" style="">Alert</ion-item>
-      <ion-item id="menu-list-item8" style="">Sound</ion-item>
-      <ion-item id="menu-list-item9" style="">Movement</ion-item>
+      <ion-item [hidden]="!alertSound" id="menu-list-item8" style="background-color: #FF0000">Sound</ion-item>
+      <ion-item [hidden]="alertSound" id="menu-list-item8" style="">Sound</ion-item>
+      <ion-item [hidden]="!alertMovement" id="menu-list-item9" style="background-color: #FF0000">Movement</ion-item>
+      <ion-item [hidden]="alertMovement" id="menu-list-item9" style="">Movement</ion-item>
     </ion-list>
 </ion-content>
 
