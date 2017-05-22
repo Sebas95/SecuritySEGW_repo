@@ -6,34 +6,63 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
   selector: 'page-about',
   templateUrl: 'about.html'
 })
+
+  /**
+  *** This class is in charge of the basic settings of the device 
+  *** Implements OnInit in order to call a function when the page initialize
+  **/
 export class AboutPage implements OnInit{
 
-
+  /** ngOnInit
+  **  This method call the bluetooth instance to subscribe to be notified when data arrived
+  **  The dot is the delimiter used in this case
+  **/
   ngOnInit(){
+    /* Notifies when dot arrives and call the function alertem with the data arrived*/
     this.bluetoothSerial.subscribe('.').subscribe(data => this.alertem(data));
+
    }
    
+   /* ------------------------- Class attributes --------------------------------- */
+
   private status = false; 
   onhh = false;
   private son = true;
   private alertSound = false;
-  private alertMovement = false
-  private alerta = false;
+  private alertMovement = false;
+  private initFlagStatus = false;
 
+
+   /* ------------------------- Class methods --------------------------------- */
+
+  /** Constructor of the class 
+  **  Takes the following instances
+  **  cdRef to refresh GUI 
+  **  navCtrl to navigate in Tabs
+  **  bluetoothSerial to make connection to embebed sistem
+  **/
   constructor(private cdRef:ChangeDetectorRef, public navCtrl: NavController, private zone: NgZone, private bluetoothSerial: BluetoothSerial) {
         
   }
 
+
+  /** alertem(String carac)
+  ** carac: Received caracter from bluetooth
+  **  This methos compare the data from the serial comunication and 
+  **  decides if it is an alert or just noise
+  **/
+
   public alertem(carac){
-    if(carac.includes("M")){
-      alert("Movement Alert");
-      this.alertMovement = true;
+    if(carac.includes("M")){ /*If M is in the data then it is a movement alert*/
+      alert("Movement Alert"); /*Alert to user*/
+      this.alertMovement = true; /*To make label visible*/
+      /* After 10 seconds turn off the label*/
       setTimeout(() => {this.alertMovement = false;this.cdRef.detectChanges();}, 10000);
-      this.cdRef.detectChanges();
-      this.bluetoothSerial.clear();
+      this.cdRef.detectChanges(); /*refresh GUI*/
+      this.bluetoothSerial.clear(); /* Flush the serial */
     }
     else{
-      if(carac.includes("S")){
+      if(carac.includes("S")){ /*If has and S then it is sound alert*/
         alert("Sound Alert");
         this.alertSound = true;
         setTimeout(() => {this.alertSound = false;this.cdRef.detectChanges();}, 10000);
@@ -41,7 +70,13 @@ export class AboutPage implements OnInit{
         this.bluetoothSerial.clear();
       }
       else{
-        this.bluetoothSerial.clear();  
+        if(carac.includes("D") && this.initFlagStatus){ /*If D then the initial condition id D*/
+          this.onhh = true; /*Set the checkbox true*/
+          this.initFlagStatus = false; /*To avoid entering a second time here after init*/
+        }
+        else{
+          this.bluetoothSerial.clear();  
+        }
       }
       
     }
@@ -53,27 +88,38 @@ export class AboutPage implements OnInit{
     }
   };
 
+
+  /** This method turn on or off the device
+  **  
+  **
+  **/
+
    turnOnDevice(){ 
-    if(!this.status){
-       this.bluetoothSerial.write("D");
+    /*Subscribe bluetoth to detects . and then do the call to function */
+    //this.bluetoothSerial.subscribe('.').subscribe(data => this.alertem(data));
+    if(!this.status){ /*If device is off*/
+       this.bluetoothSerial.write("D"); /* Send D to turn it on */
        this.bluetoothSerial.clear();      
     }
-    else{
-        this.bluetoothSerial.write("d");
+    else{ /*Device is on*/
+        this.bluetoothSerial.write("d"); /*Send d to turn it off*/
         this.bluetoothSerial.clear();
     }
     this.status = !this.status;
   };
 
-
+  /** This method is used to turn on and off the sound
+  **
+  **
+  **/
   turnOnSound(){
-    if(this.son){
-        this.bluetoothSerial.write('S');
-        this.cdRef.detectChanges();
-        this.bluetoothSerial.clear();
+    if(this.son){ /*If sound off*/
+        this.bluetoothSerial.write('S'); /*Send S to turn it on*/
+        this.cdRef.detectChanges(); /*Refresh GUI*/
+        this.bluetoothSerial.clear(); 
     }
-    else{
-        this.bluetoothSerial.write('s');
+    else{ /*If sound on*/
+        this.bluetoothSerial.write('s'); /*Send s to turn it off*/
         this.bluetoothSerial.clear();
     }
   };

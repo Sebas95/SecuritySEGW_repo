@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Control manual
+      Manual Mode
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content padding="true" class="has-header">
   <ion-list>
       <ion-item id="controller-range3">Move     
-        <input  [(ngModel)]="mov" (input) ="sendMovement()" [disabled]="!man" class="newtheme" value="90" min="0" max="180" step="1" style=" width: 250px; margin-left: 20px;"    type="range" name="something">
+        <input  [(ngModel)]="mov" (input) ="sendMovement()" [disabled]="!man" class="newtheme" value="90" min="0" max="180" step="1" style=" width: 215px; margin-left: 20px;"    type="range" name="something">
       </ion-item>
       <ion-item>
         <a style="padding: 3px; display: block; margin: 10px auto 10px auto; width:300px;">Movement: {{mov}}</a>
