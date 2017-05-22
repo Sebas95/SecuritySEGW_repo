@@ -15,9 +15,13 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial'
 export class ContactPage{
 
 
+ /* ------------------------- Class attributes --------------------------------- */
+
   private man = false; /*Boolean to the manual checkbox*/
   private mov = 0;  /*Value of movement of the device*/
 
+
+ /* ------------------------- Class methods ------------------------------------ */
 
   /**
   ***  Constructor of the class 

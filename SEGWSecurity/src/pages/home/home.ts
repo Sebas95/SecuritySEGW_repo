@@ -13,7 +13,11 @@ import { AboutPage } from '../about/about';
   *** This class is in charge of the initial connection of the device 
   **/
 export class HomePage {
-  
+
+ /* ------------------------- Class attributes --------------------------------- */
+
+ /* ------------------------- Class methods ------------------------------------ */
+
   /**
   ***  Constructor of the class 
   ***  navParams Initial Params of the class
@@ -22,10 +26,7 @@ export class HomePage {
   **/
   constructor(public about: AboutPage, public navParams: NavParams, public navCtrl: NavController, private bluetoothSerial: BluetoothSerial) {
         this.about = about;
-        //console.log(navParams.data.alerts);
   }
-
-
 
   /**
   *** This method is in charge of the connection with bluetooth

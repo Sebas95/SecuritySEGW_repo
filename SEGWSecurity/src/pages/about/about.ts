@@ -20,7 +20,7 @@ export class AboutPage implements OnInit{
   ngOnInit(){
     /* Notifies when dot arrives and call the function alertem with the data arrived*/
     this.bluetoothSerial.subscribe('.').subscribe(data => this.alertem(data));
-
+    this.bluetoothSerial.write("X"); //Writes O to check for device status
    }
    
    /* ------------------------- Class attributes --------------------------------- */
@@ -30,7 +30,7 @@ export class AboutPage implements OnInit{
   private son = true;
   private alertSound = false;
   private alertMovement = false;
-  private initFlagStatus = false;
+  private initFlagStatus = true;
 
 
    /* ------------------------- Class methods --------------------------------- */
@@ -47,12 +47,13 @@ export class AboutPage implements OnInit{
 
 
   /** alertem(String carac)
-  ** carac: Received caracter from bluetooth
+  **  carac: Received caracter from bluetooth
   **  This methos compare the data from the serial comunication and 
   **  decides if it is an alert or just noise
   **/
 
   public alertem(carac){
+    alert(carac);
     if(carac.includes("M")){ /*If M is in the data then it is a movement alert*/
       alert("Movement Alert"); /*Alert to user*/
       this.alertMovement = true; /*To make label visible*/
@@ -70,9 +71,12 @@ export class AboutPage implements OnInit{
         this.bluetoothSerial.clear();
       }
       else{
-        if(carac.includes("D") && this.initFlagStatus){ /*If D then the initial condition id D*/
+        if(carac.includes("Y") && this.initFlagStatus){ /*If D then the initial condition id D*/
           this.onhh = true; /*Set the checkbox true*/
           this.initFlagStatus = false; /*To avoid entering a second time here after init*/
+          this.cdRef.detectChanges();
+          this.bluetoothSerial.clear();
+          alert('Aqui entre');
         }
         else{
           this.bluetoothSerial.clear();  
