@@ -18,7 +18,7 @@
 <a [hidden]="!alertMovement">Movimiento</a>-->
 <ion-item>
   <ion-label> Device On</ion-label>
-  <ion-checkbox  [(ngModel)]="onhh" (click)="turnOnDevice()" name="onhh" ngDefaultControl></ion-checkbox>
+  <ion-checkbox  [checked]="status" [(ngModel)]="status" (click)="turnOnDevice()" name="onhh" ngDefaultControl></ion-checkbox>
 </ion-item>
 <ion-item>
   <ion-label> Sound Detection</ion-label>

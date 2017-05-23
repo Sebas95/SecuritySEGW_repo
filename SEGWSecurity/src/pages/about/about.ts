@@ -20,7 +20,8 @@ export class AboutPage implements OnInit{
   ngOnInit(){
     /* Notifies when dot arrives and call the function alertem with the data arrived*/
     this.bluetoothSerial.subscribe('.').subscribe(data => this.alertem(data));
-    this.bluetoothSerial.write("X"); //Writes O to check for device status
+    this.bluetoothSerial.write("O"); //Writes O to check for device status
+    //this.bluetoothSerial.clear();
    }
    
    /* ------------------------- Class attributes --------------------------------- */
@@ -45,7 +46,6 @@ export class AboutPage implements OnInit{
         
   }
 
-
   /** alertem(String carac)
   **  carac: Received caracter from bluetooth
   **  This methos compare the data from the serial comunication and 
@@ -53,7 +53,6 @@ export class AboutPage implements OnInit{
   **/
 
   public alertem(carac){
-    alert(carac);
     if(carac.includes("M")){ /*If M is in the data then it is a movement alert*/
       alert("Movement Alert"); /*Alert to user*/
       this.alertMovement = true; /*To make label visible*/
@@ -72,11 +71,10 @@ export class AboutPage implements OnInit{
       }
       else{
         if(carac.includes("Y") && this.initFlagStatus){ /*If D then the initial condition id D*/
-          this.onhh = true; /*Set the checkbox true*/
-          this.initFlagStatus = false; /*To avoid entering a second time here after init*/
+          this.status = true; /*Set the checkbox true*/
           this.cdRef.detectChanges();
-          this.bluetoothSerial.clear();
-          alert('Aqui entre');
+          this.initFlagStatus = false; /*To avoid entering a second time here after init*/
+          this.bluetoothSerial.clear();;
         }
         else{
           this.bluetoothSerial.clear();  
@@ -85,6 +83,47 @@ export class AboutPage implements OnInit{
       
     }
   };
+
+ /** public alertem(carac){
+    alert(carac);
+    if(carac.includes("M")){ //If M is in the data then it is a movement alert
+      alert("Movement Alert"); //Alert to user/
+      this.alertMovement = true; //To make label visible/
+      // After 10 seconds turn off the label/
+      setTimeout(() => {this.alertMovement = false;this.cdRef.detectChanges();}, 10000);
+      this.cdRef.detectChanges(); //refresh GUI/
+      this.bluetoothSerial.clear(); // Flush the serial /
+    }
+    else{
+      if(carac.includes("S")){ //If has and S then it is sound alert/
+        alert("Sound Alert");
+        this.alertSound = true;
+        setTimeout(() => {this.alertSound = false;this.cdRef.detectChanges();}, 10000);
+        this.cdRef.detectChanges();
+        this.bluetoothSerial.clear();
+      }
+      else{
+        if(carac.includes("Y")){ //If D then the initial condition id D/
+          if(this.initFlagStatus){
+            this.onhh = true; //Set the checkbox true/
+            this.cdRef.detectChanges();
+            this.initFlagStatus = false; //To avoid entering a second time here after init/
+            this.bluetoothSerial.clear();
+            alert('Aqui entre');
+          }
+          else{
+            this.onhh = false; //Set the checkbox false/
+            this.cdRef.detectChanges();
+            this.bluetoothSerial.clear();
+          }
+        }
+        else{
+          this.bluetoothSerial.clear();  
+        }
+      }
+      
+    }
+  };*/
 
   changeNotification(data){
     if(data=='M -'){
@@ -110,6 +149,7 @@ export class AboutPage implements OnInit{
         this.bluetoothSerial.clear();
     }
     this.status = !this.status;
+    this.cdRef.detectChanges(); /*refresh GUI*/
   };
 
   /** This method is used to turn on and off the sound
